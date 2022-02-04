@@ -5,10 +5,14 @@ services:
       container_name: nginx
       volumes:
         - ./templates:/etc/nginx/templates
-        - ./nginx/:/etc/nginx/conf.d/
-        - ./:/var/www
+        - ./nginx/conf.d/:/etc/nginx/conf.d/
+        - wp_data:/var/www/html
+        - dbdata:/var/lib/mysql
       ports: 
-        - "8080:80"
+        - "80:80"
+      depends_on:
+        - wordpress
+        - db
    
     db:
       image: mysql:latest
@@ -29,16 +33,19 @@ services:
       container_name: wordpress
       image: wordpress:latest
       volumes:
-        -
+        - wp_data:/var/www/html
+      #volumes:
+      #  - 
       ports:
-       - "8000:80"
-       #- "443:443"
+        - "8000:80"
+      # - "443:443"
       restart: always
       environment:
-        WORDPRESS_DB_HOST: 
+        WORDPRESS_DB_HOST: db
         WORDPRESS_DB_USER: user
         WORDPRESS_DB_PASSWORD: Qwerty1!
         WORDPRESS_DB_NAME: wordpress 
 volumes:
   dbdata:
     driver: local
+  wp_data:
