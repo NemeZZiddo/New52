@@ -22,8 +22,10 @@ services:
         - ./mysql/mysql.cnf:/etc/mysql/mysql.cnf
       restart: always
       environment:
-        MYSQL_DATABASE: new52
+        MYSQL_DATABASE: wordpress
         MYSQL_ROOT_PASSWORD: Qwerty1!
+        MYSQL_USER: wordpress
+        MYSQL_PASSWORD: wordpress
         SERVICE_TAGS: dev
         SERVICE_NAME: mysql
 
@@ -42,9 +44,9 @@ services:
       restart: always
       environment:
         WORDPRESS_DB_HOST: db
-        WORDPRESS_DB_USER: user
-        WORDPRESS_DB_PASSWORD: Qwerty1!
-        WORDPRESS_DB_NAME: wordpress 
+        WORDPRESS_DB_USER: wordpress
+        WORDPRESS_DB_PASSWORD: wordpress
+        WORDPRESS_DB_NAME: wordpress
 volumes:
   dbdata:
     driver: local
